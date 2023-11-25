@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -16,6 +17,11 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @GetMapping
+    public List<Usuario> listarUsuarios(){
+        return usuarioService.listarUsuarios();
+    }
 
     @GetMapping("/{username}")
     public ResponseEntity<Object> buscarUsuario(@PathVariable String username) {

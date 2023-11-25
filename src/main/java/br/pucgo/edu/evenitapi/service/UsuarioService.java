@@ -7,6 +7,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -15,6 +16,8 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioDao usuarioDao;
+
+    public List<Usuario> listarUsuarios() {return  (List<Usuario>) usuarioDao.findAll();}
 
     public Optional<Usuario> buscarUsuario(String username){
         return usuarioDao.findById(username);
@@ -34,7 +37,6 @@ public class UsuarioService {
         String senhaUsuario = usuarioBuscado.get().getSenha();
         return Objects.equals(senhaInserida, senhaUsuario);
     }
-
 
     private String converterSha1Hex(String senha) {
         return DigestUtils.sha1Hex(senha);

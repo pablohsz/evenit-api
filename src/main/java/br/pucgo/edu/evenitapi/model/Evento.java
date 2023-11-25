@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "eventos")
@@ -36,11 +36,11 @@ public class Evento {
 
     @Column(name = "data_inicial")
     @Getter @Setter
-    private Date dataInicial;
+    private LocalDate dataInicial;
 
     @Column(name = "data_final")
     @Getter @Setter
-    private Date dataFinal;
+    private LocalDate dataFinal;
 
     @Column(length = 20)
     @Getter @Setter
