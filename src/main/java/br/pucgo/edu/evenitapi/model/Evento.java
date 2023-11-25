@@ -18,7 +18,7 @@ public class Evento {
 
     @Column(length = 120)
     @Getter @Setter
-    private String name;
+    private String titulo;
 
     @Column
     @Getter @Setter
@@ -30,7 +30,7 @@ public class Evento {
     private Categoria categoria;
 
     @ManyToOne
-    @JoinColumn(name = "criador_user")
+    @JoinColumn(name = "usuario_evento")
     @Getter @Setter
     private Usuario usuario;
 
