@@ -1,13 +1,9 @@
 package br.pucgo.edu.evenitapi.service;
 
-import br.pucgo.edu.evenitapi.dao.CategoriaDao;
 import br.pucgo.edu.evenitapi.dao.EventoDao;
-import br.pucgo.edu.evenitapi.dao.UsuarioDao;
-import br.pucgo.edu.evenitapi.model.Categoria;
 import br.pucgo.edu.evenitapi.model.Evento;
-import br.pucgo.edu.evenitapi.model.Usuario;
-import br.pucgo.edu.evenitapi.model.dto.EventoDto;
-import br.pucgo.edu.evenitapi.model.dto.UsuarioDto;
+import br.pucgo.edu.evenitapi.model.dto.EventoRequisicaoDto;
+import br.pucgo.edu.evenitapi.model.dto.EventoRespostaDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,20 +36,20 @@ public class EventoService {
         return eventoDao.findAllByDataInicialGreaterThanEqualAndDataFinalLessThanEqual(dataInicial, dataFinal);
     }
 
-    public EventoDto salvarEvento(EventoDto eventoDto) {
-        Evento evento = conversorDto(eventoDto);
+    public EventoRespostaDto salvarEvento(EventoRequisicaoDto eventoRequisicaoDto) {
+        Evento evento = conversorDto(eventoRequisicaoDto);
         evento = eventoDao.save(evento);
-        return new EventoDto(evento);
+        return new EventoRespostaDto(evento);
     }
 
     public void deletarEvento(Long id) {
         eventoDao.deleteById(id);
     }
 
-    private Evento conversorDto(EventoDto eventoDto){
-        var categoriaBuscada = categoriaService.buscarCategoria(eventoDto.getCategoria());
-        var usuarioBuscado = usuarioService.buscarUsuario(eventoDto.getUsuario());
-        Evento evento = new Evento(eventoDto);
+    private Evento conversorDto(EventoRequisicaoDto eventoRequisicaoDto){
+        var categoriaBuscada = categoriaService.buscarCategoria(eventoRequisicaoDto.getCategoria());
+        var usuarioBuscado = usuarioService.buscarUsuario(eventoRequisicaoDto.getUsuario());
+        Evento evento = new Evento(eventoRequisicaoDto);
         evento.setCategoria(categoriaBuscada.get());
         evento.setUsuario(usuarioBuscado.get());
 

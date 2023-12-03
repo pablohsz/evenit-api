@@ -29,13 +29,15 @@ public class UsuarioService {
         return usuarioDao.save(usuario);
     }
 
-    public boolean verificaCredenciais(UsuarioDto usuario) {
+    public Usuario verificaCredenciais(UsuarioDto usuario) {
         Optional<Usuario> usuarioBuscado = usuarioDao.findById(usuario.getUsername());
         if (usuarioBuscado.isEmpty())
-            return false;
+            return null;
         String senhaInserida = converterSha1Hex(usuario.getSenha());
         String senhaUsuario = usuarioBuscado.get().getSenha();
-        return Objects.equals(senhaInserida, senhaUsuario);
+        if(Objects.equals(senhaInserida, senhaUsuario)){
+            return usuarioBuscado.get();
+        } return null;
     }
 
     private String converterSha1Hex(String senha) {

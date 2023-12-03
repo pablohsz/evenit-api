@@ -2,7 +2,8 @@ package br.pucgo.edu.evenitapi.controller;
 
 
 import br.pucgo.edu.evenitapi.model.Evento;
-import br.pucgo.edu.evenitapi.model.dto.EventoDto;
+import br.pucgo.edu.evenitapi.model.dto.EventoRequisicaoDto;
+import br.pucgo.edu.evenitapi.model.dto.EventoRespostaDto;
 import br.pucgo.edu.evenitapi.service.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,13 +24,13 @@ public class EventoController {
     private EventoService eventoService;
 
     @GetMapping
-    public List<EventoDto> listarEventos() {
+    public List<EventoRespostaDto> listarEventos() {
         var eventos = eventoService.listarEventos();
         return converterEventoDto(eventos);
     }
 
     @GetMapping("/data")
-    public List<EventoDto> listarEventosPorData(@RequestParam("inicio") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial,
+    public List<EventoRespostaDto> listarEventosPorData(@RequestParam("inicio") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial,
                                              @RequestParam("fim") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal) {
         var eventos = eventoService.listarEventosPorData(dataInicial, dataFinal);
         return converterEventoDto(eventos);
@@ -42,19 +43,19 @@ public class EventoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         var evento = eventoBuscado.get();
-        return ResponseEntity.status(HttpStatus.OK).body(evento);
+        return ResponseEntity.status(HttpStatus.OK).body(new EventoRespostaDto(evento));
     }
 
     @PostMapping
-    public ResponseEntity<Object> criarEvento(@RequestBody EventoDto evento) {
-        evento = eventoService.salvarEvento(evento);
-        return ResponseEntity.status(HttpStatus.CREATED).body(evento);
+    public ResponseEntity<Object> criarEvento(@RequestBody EventoRequisicaoDto evento) {
+        var eventoResposta = eventoService.salvarEvento(evento);
+        return ResponseEntity.status(HttpStatus.CREATED).body(eventoResposta);
     }
 
     @PatchMapping
-    public ResponseEntity<Object> atualizarEvento(@RequestBody EventoDto evento) {
-        evento = eventoService.salvarEvento(evento);
-        return ResponseEntity.status(HttpStatus.OK).body(evento);
+    public ResponseEntity<Object> atualizarEvento(@RequestBody EventoRequisicaoDto evento) {
+        var eventoResposta = eventoService.salvarEvento(evento);
+        return ResponseEntity.status(HttpStatus.OK).body(eventoResposta);
     }
 
     @DeleteMapping("{id}")
@@ -63,12 +64,12 @@ public class EventoController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    private List<EventoDto> converterEventoDto(List<Evento> eventos){
-        List<EventoDto> eventosDto = new ArrayList<>();
-        EventoDto eventoDto;
+    private List<EventoRespostaDto> converterEventoDto(List<Evento> eventos){
+        List<EventoRespostaDto> eventosDto = new ArrayList<>();
+        EventoRespostaDto eventoRespostaDto;
         for(Evento evento : eventos){
-            eventoDto = new EventoDto(evento);
-            eventosDto.add(eventoDto);
+            eventoRespostaDto = new EventoRespostaDto(evento);
+            eventosDto.add(eventoRespostaDto);
         }
         return eventosDto;
     }

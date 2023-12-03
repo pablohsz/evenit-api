@@ -27,11 +27,8 @@ public class UsuarioController {
     public ResponseEntity<Object> buscarUsuario(@PathVariable String username) {
         Optional<Usuario> usuarioBuscado = usuarioService.buscarUsuario(username);
         if(usuarioBuscado.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        var usuario = usuarioBuscado.get();
-        usuario.setSenha("");
-        return ResponseEntity.status(HttpStatus.OK).body(usuario);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
 
@@ -44,10 +41,12 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<Object> validaEntrada(@RequestBody UsuarioDto usuario) {
-        if (usuarioService.verificaCredenciais(usuario)) {
-            return ResponseEntity.status(HttpStatus.OK).build();
+        var usuarioValidado = usuarioService.verificaCredenciais(usuario);
+        usuarioValidado.setSenha("");
+        if (usuarioValidado != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(usuarioValidado);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @PatchMapping

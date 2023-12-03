@@ -1,7 +1,7 @@
 package br.pucgo.edu.evenitapi.model;
 
 
-import br.pucgo.edu.evenitapi.model.dto.EventoDto;
+import br.pucgo.edu.evenitapi.model.dto.EventoRequisicaoDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,14 +15,13 @@ public class Evento {
     public Evento() {
     }
 
-    public Evento(EventoDto eventoDto) {
-        this.id = eventoDto.getId();
-        this.titulo = eventoDto.getTitulo();
-        this.descricao = eventoDto.getDescricao();
-        this.dataInicial = eventoDto.getDataInicial();
-        this.dataFinal = eventoDto.getDataFinal();
-        this.estado = eventoDto.getEstado();
-        this.cidade = eventoDto.getCidade();
+    public Evento(EventoRequisicaoDto eventoRequisicaoDto) {
+        this.id = eventoRequisicaoDto.getId();
+        this.titulo = eventoRequisicaoDto.getTitulo();
+        this.descricao = eventoRequisicaoDto.getDescricao();
+        this.dataInicial = eventoRequisicaoDto.getDataInicial();
+        this.dataFinal = eventoRequisicaoDto.getDataFinal();
+        this.modalidade = eventoRequisicaoDto.getModalidade();
     }
 
     @Id
@@ -58,10 +57,7 @@ public class Evento {
 
     @Column(length = 20)
     @Getter @Setter
-    private String estado;
+    private String modalidade;
 
-    @Column(length = 50)
-    @Getter @Setter
-    private String cidade;
 
 }

@@ -6,21 +6,20 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-public class EventoDto {
+public class EventoRespostaDto {
 
-    public EventoDto() {
+    public EventoRespostaDto() {
     }
 
-    public EventoDto(Evento evento) {
+    public EventoRespostaDto(Evento evento) {
         this.id = evento.getId();
         this.titulo = evento.getTitulo();
         this.descricao = evento.getDescricao();
-        this.categoria = evento.getCategoria().getId();
+        this.categoria = new CategoriaDto(evento.getCategoria().getId(), evento.getCategoria().getCategoria());
         this.usuario = evento.getUsuario().getUsername();
         this.dataInicial = evento.getDataInicial();
         this.dataFinal = evento.getDataFinal();
-        this.estado = evento.getEstado();
-        this.cidade = evento.getCidade();
+        this.modalidade = evento.getModalidade();
     }
 
     @Getter
@@ -37,7 +36,7 @@ public class EventoDto {
 
     @Getter
     @Setter
-    private Long categoria;
+    private CategoriaDto categoria;
 
     @Getter
     @Setter
@@ -53,10 +52,6 @@ public class EventoDto {
 
     @Getter
     @Setter
-    private String estado;
-
-    @Getter
-    @Setter
-    private String cidade;
+    private String modalidade;
 
 }
