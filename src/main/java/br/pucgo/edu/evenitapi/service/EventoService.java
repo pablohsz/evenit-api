@@ -33,7 +33,7 @@ public class EventoService {
     }
 
     public List<Evento> listarEventosPorData(LocalDate dataInicial, LocalDate dataFinal) {
-        return eventoDao.findAllByDataInicialGreaterThanEqualAndDataFinalLessThanEqual(dataInicial, dataFinal);
+        return eventoDao.findAllByDataInicialGreaterThanEqualAndDataFinalLessThanEqualOrderByDataInicialAsc(dataInicial, dataFinal);
     }
 
     public EventoRespostaDto salvarEvento(EventoRequisicaoDto eventoRequisicaoDto) {

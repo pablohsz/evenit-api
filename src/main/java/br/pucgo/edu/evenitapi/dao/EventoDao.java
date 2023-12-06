@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface EventoDao extends CrudRepository<Evento, Long> {
 
-    List<Evento> findAllByDataInicialGreaterThanEqualAndDataFinalLessThanEqual(LocalDate dataInicial, LocalDate dataFinal);
+    List<Evento> findAllByDataInicialGreaterThanEqualAndDataFinalLessThanEqualOrderByDataInicialAsc(LocalDate dataInicial, LocalDate dataFinal);
 
 }
