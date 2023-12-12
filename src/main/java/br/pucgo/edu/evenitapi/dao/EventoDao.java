@@ -5,9 +5,11 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
 import java.util.List;
-
+    
 public interface EventoDao extends CrudRepository<Evento, Long> {
 
     List<Evento> findAllByDataInicialGreaterThanEqualAndDataFinalLessThanEqualOrderByDataInicialAsc(LocalDate dataInicial, LocalDate dataFinal);
+
+    List<Evento> findAllByOrderByCategoriaAsc();
 
 }

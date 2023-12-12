@@ -22,14 +22,17 @@ public class RelatorioService {
     @Autowired
     private EventoService eventoService;
 
+    private final String localizacaoRecursoRelatorioSimples = "classpath:evenit_report.jrxml";
+    private final String localizacaoRecursoRelatorioOrdenado = "classpath:evenit_report_orderby.jrxml";
+
     public JasperPrint exportarRelatorio() throws IOException, JRException {
-        List<EventoRelatorioDto> eventos = converterParaEventoRelatorioDto(eventoService.listarEventos());
-        return gerarRelatorio(eventos);
+        List<EventoRelatorioDto> eventos = converterParaEventoRelatorioDto(eventoService.listarEventosPorCategoria());
+        return gerarRelatorio(eventos, localizacaoRecursoRelatorioOrdenado);
     }
 
     public JasperPrint exportarRelatorio(LocalDate dataInicial, LocalDate dataFinal) throws IOException, JRException {
         List<EventoRelatorioDto> eventos = converterParaEventoRelatorioDto(eventoService.listarEventosPorData(dataInicial, dataFinal));
-        return gerarRelatorio(eventos);
+        return gerarRelatorio(eventos, localizacaoRecursoRelatorioSimples);
     }
 
     private List<EventoRelatorioDto> converterParaEventoRelatorioDto(List<Evento> eventos){
@@ -42,8 +45,8 @@ public class RelatorioService {
         return eventosConvertidos;
     }
 
-    private JasperPrint gerarRelatorio(List<EventoRelatorioDto> eventos) throws IOException, JRException {
-        File file = ResourceUtils.getFile("classpath:evenit_report.jrxml");
+    private JasperPrint gerarRelatorio(List<EventoRelatorioDto> eventos, String resourceLocation) throws IOException, JRException {
+        File file = ResourceUtils.getFile(resourceLocation);
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(eventos);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, dataSource);

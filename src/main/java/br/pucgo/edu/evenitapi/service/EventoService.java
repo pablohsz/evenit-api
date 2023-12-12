@@ -28,12 +28,16 @@ public class EventoService {
         return (List<Evento>) eventoDao.findAll();
     }
 
-    public Optional<Evento> buscarEvento(Long id) {
+        public Optional<Evento> buscarEvento(Long id) {
         return eventoDao.findById(id);
     }
 
     public List<Evento> listarEventosPorData(LocalDate dataInicial, LocalDate dataFinal) {
         return eventoDao.findAllByDataInicialGreaterThanEqualAndDataFinalLessThanEqualOrderByDataInicialAsc(dataInicial, dataFinal);
+    }
+
+    public List<Evento> listarEventosPorCategoria() {
+        return eventoDao.findAllByOrderByCategoriaAsc();
     }
 
     public EventoRespostaDto salvarEvento(EventoRequisicaoDto eventoRequisicaoDto) {

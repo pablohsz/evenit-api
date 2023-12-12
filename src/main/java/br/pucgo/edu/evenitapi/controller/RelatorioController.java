@@ -32,7 +32,7 @@ public class RelatorioController {
 
         // Define o tipo de conteúdo da resposta
         response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "inline; filename=relatorio_filmes_avaliados.pdf");
+        response.setHeader("Content-Disposition", "inline; filename=relatorio_eventos.pdf");
     }
 
     @GetMapping("/pdf/data")
@@ -42,7 +42,7 @@ public class RelatorioController {
         var jasperPrint = relatorioService.exportarRelatorio(dataInicial, dataFinal);
         JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
         response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "inline; filename=relatorio_filmes_avaliados.pdf");
+        response.setHeader("Content-Disposition", "inline; filename=relatorio_eventos.pdf");
     }
 
 }
